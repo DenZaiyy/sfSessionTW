@@ -25,16 +25,16 @@ class Session
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_fin = null;
 
-    #[ORM\ManyToMany(targetEntity: Stagiaire::class, inversedBy: 'sessions')]
-    private Collection $stagiaires;
-
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class)]
     private Collection $programmes;
 
+    #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'session_stagiaire')]
+    private Collection $stagiaires;
+
     public function __construct()
     {
-        $this->stagiaires = new ArrayCollection();
         $this->programmes = new ArrayCollection();
+        $this->stagiaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,30 +79,6 @@ class Session
     }
 
     /**
-     * @return Collection<int, Stagiaire>
-     */
-    public function getStagiaires(): Collection
-    {
-        return $this->stagiaires;
-    }
-
-    public function addStagiaire(Stagiaire $stagiaire): self
-    {
-        if (!$this->stagiaires->contains($stagiaire)) {
-            $this->stagiaires->add($stagiaire);
-        }
-
-        return $this;
-    }
-
-    public function removeStagiaire(Stagiaire $stagiaire): self
-    {
-        $this->stagiaires->removeElement($stagiaire);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Programme>
      */
     public function getProgrammes(): Collection
@@ -130,5 +106,37 @@ class Session
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Stagiaire>
+     */
+    public function getStagiaires(): Collection
+    {
+        return $this->stagiaires;
+    }
+
+    public function addStagiaire(Stagiaire $stagiaire): self
+    {
+        if (!$this->stagiaires->contains($stagiaire)) {
+            $this->stagiaires->add($stagiaire);
+            $stagiaire->addSessionStagiaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStagiaire(Stagiaire $stagiaire): self
+    {
+        if ($this->stagiaires->removeElement($stagiaire)) {
+            $stagiaire->removeSessionStagiaire($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return "Session n°" . $this->id;
     }
 }

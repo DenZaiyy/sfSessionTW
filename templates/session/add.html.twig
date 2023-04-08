@@ -3,25 +3,21 @@
 {% endblock %}
 {% block body %}
 	{% if edit %}
-		<h1>Editer une session</h1>
+		<h1 class="text-2xl font-bold uppercase text-center">Editer une session</h1>
 	{% else %}
-		<h1>Ajouter une session</h1>
+		<h1 class="text-2xl font-bold uppercase text-center">Ajouter une session</h1>
 	{% endif %}
 
 	{# form_start permet de gérer manuellement la disposition du formulaire #}
-	{{ form_start(formAddSession) }}
-	<div class="about">
-		{{ form_row(formAddSession.nb_place) }}
+	{{ form_start(formAddSession, {'attr': {'class': 'w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
+	{{ form_row(formAddSession.nb_place, {'label': 'Nombre de places : '}) }}
+	<div class="mt-5">
+		{{ form_row(formAddSession.date_debut, {'label': 'Date de début : '}) }}
 	</div>
-	<div class="date">
-		{{ form_row(formAddSession.date_debut) }}
-		{{ form_row(formAddSession.date_fin) }}
+	<div class="mt-5">
+		{{ form_row(formAddSession.date_fin, {'label': 'Date de fin : '}) }}
 	</div>
-	<div class="stagiaires">
-		{{ form_row(formAddSession.stagiaires) }}
-	</div>
-	<div class="submit">
-		{{ form_row(formAddSession.submit) }}
-	</div>
+	{{ form_widget(formAddSession.stagiaires) }}
+	{{ form_row(formAddSession.submit, {'label': 'Ajouter'}) }}
 	{{ form_end(formAddSession) }}
 {% endblock %}
