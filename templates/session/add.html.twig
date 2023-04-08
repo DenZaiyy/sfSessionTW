@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter une session
+{% endblock %}
+{% block body %}
+	{% if edit %}
+		<h1>Editer une session</h1>
+	{% else %}
+		<h1>Ajouter une session</h1>
+	{% endif %}
+
+	{# form_start permet de gérer manuellement la disposition du formulaire #}
+	{{ form_start(formAddSession) }}
+	<div class="about">
+		{{ form_row(formAddSession.nb_place) }}
+	</div>
+	<div class="date">
+		{{ form_row(formAddSession.date_debut) }}
+		{{ form_row(formAddSession.date_fin) }}
+	</div>
+	<div class="stagiaires">
+		{{ form_row(formAddSession.stagiaires) }}
+	</div>
+	<div class="submit">
+		{{ form_row(formAddSession.submit) }}
+	</div>
+	{{ form_end(formAddSession) }}
+{% endblock %}

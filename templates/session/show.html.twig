@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de session
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-2xl font-bold uppercase text-center">Détail session</h1>
+
+
+	{% if session.stagiaires|length != 0 %}
+		<h2>Session n°{{ session.id }}</h2>
+		<table class="w-full border-collapse bg-white text-left text-sm text-gray-500 dark:text-white mt-5 table-auto">
+			<thead class="bg-gray-50 dark:bg-slate-800">
+				<tr class="divide-x">
+					<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-max">ID</th>
+					<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white">Nom</th>
+					<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white">Prenom</th>
+					<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white">Date naissance</th>
+					<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white">Ville</th>
+					<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white">Mail</th>
+					<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white">Téléphone</th>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-gray-100 border-t border-gray-100 dark:bg-slate-400">
+				{% for stagiaire in stagiaires %}
+					<tr class="hover:bg-gray-50 hover:dark:bg-slate-800 divide-x">
+						<td class="px-6 py-4">{{ stagiaire.id }}</td>
+						<td class="px-6 py-4">{{ stagiaire.nom }}</td>
+						<td class="px-6 py-4">{{ stagiaire.prenom }}</td>
+						<td class="px-6 py-4">{{ stagiaire.dateNaissance|date('d/m/Y') }}
+							({{ stagiaire.age }}
+							ans)</td>
+						<td class="px-6 py-4">{{ stagiaire.ville }}</td>
+						<td class="px-6 py-4">{{ stagiaire.mail }}</td>
+						<td class="px-6 py-4">{{ stagiaire.tel }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>La session n'a pas encore de stagiaire</p>
+	{% endif %}
+
+{% endblock %}
