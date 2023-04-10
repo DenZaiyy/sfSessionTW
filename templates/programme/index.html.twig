@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProgrammeController!{% endblock %}
+{% block title %}Liste des programmes
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<h1 class="text-2xl font-bold uppercase text-center">Liste des programmes</h1>
+	<div class="btns flex justify-center gap-2 mt-5 mb-5">
+		<a href="{{ path('add_programme') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add programme</a>
+		<a href="{{ path('add_categorie') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add categorie</a>
+		<a href="{{ path('add_module') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add module</a>
+	</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	{% if programmes %}
+		<div class="container flex gap-4 justify-center mt-5">
+			{% for programme in programmes %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/denza/Documents/GitHub/UXTailwind/src/Controller/ProgrammeController.php'|file_link(0) }}">src/Controller/ProgrammeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/denza/Documents/GitHub/UXTailwind/templates/programme/index.html.twig'|file_link(0) }}">templates/programme/index.html.twig</a></code></li>
-    </ul>
-</div>
+				<a class="hover:scale-105 transition-all duration-700" href="{{ path('show_programme', {'id': programme.id }) }}">
+					<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+						<p class="text-slate-900 dark:text-white text-base tracking-tight">
+							<strong>Session n° :</strong>
+							{{ programme.session.id }}</p>
+						<p class="text-slate-900 dark:text-white text-base tracking-tight">
+							<strong>Module :</strong>
+							{{ programme.module.id }}</p>
+
+						<p class="text-slate-900 dark:text-white text-base tracking-tight">
+							<strong>Durée :</strong>
+							{{ programme.duree }}</p>
+						<div class="btns flex justify-center mt-5 gap-2">
+							<a href="{{ path('edit_programme', {'id': programme.id })}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full uppercase mt-5">Edit</a>
+							<a href="{{ path('delete_programme', {'id': programme.id })}}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full uppercase mt-5">Delete</a>
+						</div>
+					</div>
+				</a>
+			{% endfor %}
+		</div>
+	{% else %}
+		<p class="text-center">Aucun programme</p>
+	{% endif %}
 {% endblock %}
