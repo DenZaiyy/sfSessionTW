@@ -18,11 +18,11 @@
 				<a class="hover:scale-105 transition-all duration-700" href="{{ path('show_programme', {'id': programme.id }) }}">
 					<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
 						<p class="text-slate-900 dark:text-white text-base tracking-tight">
-							<strong>Session n° :</strong>
-							{{ programme.session.id }}</p>
+							<strong>Nom de session :</strong>
+							{{ programme.session.label }}</p>
 						<p class="text-slate-900 dark:text-white text-base tracking-tight">
 							<strong>Module :</strong>
-							{{ programme.module.id }}</p>
+							{{ programme.module.label }}</p>
 
 						<p class="text-slate-900 dark:text-white text-base tracking-tight">
 							<strong>Durée :</strong>

@@ -10,7 +10,10 @@
 
 	{# form_start permet de gérer manuellement la disposition du formulaire #}
 	{{ form_start(formAddSession, {'attr': {'class': 'w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
-	{{ form_row(formAddSession.nb_place, {'label': 'Nombre de places : '}) }}
+	{{ form_row(formAddSession.label, {'label': 'Nom : '}) }}
+	<div class="mt-5">
+		{{ form_row(formAddSession.nb_place, {'label': 'Nombre de places : '}) }}
+	</div>
 	<div class="mt-5">
 		{{ form_row(formAddSession.date_debut, {'label': 'Date de début : '}) }}
 	</div>

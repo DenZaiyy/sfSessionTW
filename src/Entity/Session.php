@@ -16,6 +16,9 @@ class Session
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $label = null;
+
     #[ORM\Column]
     private ?int $nb_place = null;
 
@@ -138,5 +141,17 @@ class Session
     public function __toString()
     {
         return "Session n°" . $this->id;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(string $label): self
+    {
+        $this->label = $label;
+
+        return $this;
     }
 }

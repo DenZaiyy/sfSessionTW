@@ -6,6 +6,8 @@ use App\Entity\Module;
 use App\Entity\Categorie;
 use App\Entity\Programme;
 use App\Form\ProgrammeType;
+use App\Form\ModuleType;
+use App\Form\CategorieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

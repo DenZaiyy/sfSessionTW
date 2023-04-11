@@ -15,6 +15,9 @@
 				<a class="hover:scale-105 transition-all duration-700" href="{{ path('show_session', {'id': session.id }) }}">
 					<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
 						<p class="text-slate-900 dark:text-white text-base tracking-tight">
+							<strong>Nom :</strong>
+							{{ session.getLabel }}</p>
+						<p class="text-slate-900 dark:text-white text-base tracking-tight">
 							<strong>Nombre de places :</strong>
 							{{ session.getNbPlace }}</p>
 						<p class="text-slate-900 dark:text-white text-base tracking-tight">
