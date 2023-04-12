@@ -9,7 +9,7 @@
 	{% endif %}
 
 	{# form_start permet de gérer manuellement la disposition du formulaire #}
-	{{ form_start(formAddStagiaire) }}
+	{{ form_start(formAddStagiaire, {'attr': {'class': 'w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
 	{{ form_row(formAddStagiaire.nom) }}
 	{{ form_row(formAddStagiaire.prenom) }}
 	{{ form_row(formAddStagiaire.dateNaissance) }}

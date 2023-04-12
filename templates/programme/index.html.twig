@@ -4,38 +4,62 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-2xl font-bold uppercase text-center">Liste des programmes</h1>
-	<div class="btns flex justify-center gap-2 mt-5 mb-5">
+	<div class="btns flex justify-center gap-2 mb-5">
 		<a href="{{ path('add_programme') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add programme</a>
 		<a href="{{ path('add_categorie') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add categorie</a>
-		<a href="{{ path('add_module') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add module</a>
 	</div>
+	<h1 class="text-2xl font-bold uppercase text-center">Liste des programmes</h1>
 
 	{% if programmes %}
 		<div class="container flex gap-4 justify-center mt-5">
 			{% for programme in programmes %}
-
-				<a class="hover:scale-105 transition-all duration-700" href="{{ path('show_programme', {'id': programme.id }) }}">
-					<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-						<p class="text-slate-900 dark:text-white text-base tracking-tight">
-							<strong>Nom de session :</strong>
-							{{ programme.session.label }}</p>
-						<p class="text-slate-900 dark:text-white text-base tracking-tight">
-							<strong>Module :</strong>
-							{{ programme.module.label }}</p>
-
-						<p class="text-slate-900 dark:text-white text-base tracking-tight">
-							<strong>Durée :</strong>
-							{{ programme.duree }}</p>
-						<div class="btns flex justify-center mt-5 gap-2">
-							<a href="{{ path('edit_programme', {'id': programme.id })}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full uppercase mt-5">Edit</a>
-							<a href="{{ path('delete_programme', {'id': programme.id })}}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full uppercase mt-5">Delete</a>
-						</div>
+				<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Nom de session :</strong>
+						{{ programme.session.label }}</p>
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Catégorie :</strong>
+						{{ programme.module.categorie.label }}</p>
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Module :</strong>
+						{{ programme.module.label }}</p>
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Durée :</strong>
+						{{ programme.duree }}
+						heures</p>
+					<div class="btns flex justify-center mt-5 gap-2">
+						<a href="{{ path('edit_programme', {'id': programme.id })}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 uppercase">Edit</a>
+						<a href="{{ path('delete_programme', {'id': programme.id })}}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 uppercase">Delete</a>
 					</div>
-				</a>
+				</div>
 			{% endfor %}
 		</div>
 	{% else %}
 		<p class="text-center">Aucun programme</p>
+	{% endif %}
+
+	{% if categories %}
+		<h2 class="text-2xl font-bold uppercase text-center mt-5">Liste des catégories</h2>
+		<div class="container flex gap-4 justify-center mt-5">
+			{% for categorie in categories %}
+				<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+					<p class="text-slate-900 dark:text-white text-base tracking-tight text-center">
+
+						{{ categorie.label }}
+					</p>
+					<div class="flex justify-center mt-5 gap-4">
+						<a href="{{ path('show_categorie', {'id': categorie.id }) }}" class="transition-all hover:text-blue-600 text-white">
+							<i class="fa-solid fa-eye fa-2xl"></i>
+						</a>
+						<a href="{{ path('edit_categorie', {'id': categorie.id })}}" class="transition-all hover:text-blue-600 text-white">
+							<i class="fa-solid fa-pen-to-square fa-2xl"></i>
+						</a>
+						<a href="{{ path('delete_categorie', {'id': categorie.id })}}" class="transition-all hover:text-red-600 text-red-950">
+							<i class="fa-solid fa-trash-can fa-2xl"></i>
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	{% endif %}
 {% endblock %}

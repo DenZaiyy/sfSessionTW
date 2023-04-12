@@ -4,11 +4,34 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-2xl font-bold uppercase text-center">Détail session</h1>
+	<h1 class="text-2xl font-bold uppercase text-center">Détail session ({{ session.label }})</h1>
 
+	{# <a href="{{path('add_programme', {'id': session.id})}}">add program</a> #}
 
+	<h2 class="text-2xl font-bold uppercase mt-5">Programmes :</h2>
+	{% if programmes %}
+		<div class="container flex gap-4 mt-5">
+			{% for programme in session.programmes %}
+				<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Catégorie :</strong>
+						{{ programme.module.categorie.label }}</p>
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Module :</strong>
+						{{ programme.module.label }}</p>
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Durée :</strong>
+						{{ programme.duree }}
+						heures</p>
+				</div>
+			{% endfor %}
+		</div>
+	{% else %}
+		<p>La session n'a pas encore de programme</p>
+	{% endif %}
+
+	<h2 class="text-2xl font-bold uppercase mt-5">La liste des participants</h2>
 	{% if session.stagiaires|length != 0 %}
-		<h2>Session n°{{ session.id }}</h2>
 		<table class="w-full border-collapse bg-white text-left text-sm text-gray-500 dark:text-white mt-5 table-auto">
 			<thead class="bg-gray-50 dark:bg-slate-800">
 				<tr class="divide-x">
@@ -24,7 +47,9 @@
 			<tbody class="divide-y divide-gray-100 border-t border-gray-100 dark:bg-slate-400">
 				{% for stagiaire in stagiaires %}
 					<tr class="hover:bg-gray-50 hover:dark:bg-slate-800 divide-x">
-						<td class="px-6 py-4">{{ stagiaire.id }}</td>
+						<td class="px-6 py-4">
+							<a class="underline" href="{{ path('show_stagiaire', {'id': stagiaire.id })}}">{{ stagiaire.id }}</td>
+						</td>
 						<td class="px-6 py-4">{{ stagiaire.nom }}</td>
 						<td class="px-6 py-4">{{ stagiaire.prenom }}</td>
 						<td class="px-6 py-4">{{ stagiaire.dateNaissance|date('d/m/Y') }}
@@ -34,11 +59,14 @@
 						<td class="px-6 py-4">{{ stagiaire.mail }}</td>
 						<td class="px-6 py-4">{{ stagiaire.tel }}</td>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	{% else %}
-		<p>La session n'a pas encore de stagiaire</p>
-	{% endif %}
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+	<p>La session n'a pas encore de stagiaire</p>
+{% endif %}
 
-{% endblock %}
+{% for stag in stagiairesNotIn %}
+	{{ stag }}
+{% endfor %}{% endblock %}

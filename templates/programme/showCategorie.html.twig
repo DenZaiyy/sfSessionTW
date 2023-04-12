@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de catégorie
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-2xl font-bold uppercase text-center">Détail catégorie ({{ categorie.label }})</h1>
+	<div class="btns flex justify-center gap-2 mt-5">
+		<a href="{{ path('add_module') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add module</a>
+	</div>
+
+	<h2 class="text-2xl font-bold uppercase mt-5">Modules :</h2>
+	{% if modules %}
+		<div class="container flex gap-4 mt-5">
+			{% for module in modules %}
+				<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Catégorie :</strong>
+						{{ module.categorie.label }}</p>
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Module :</strong>
+						{{ module.label }}</p>
+					<div class="btns flex justify-center mt-5 gap-2">
+						<a href="{{ path('edit_module', {'id': module.id })}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 uppercase">Edit</a>
+						<a href="{{ path('delete_module', {'id': module.id })}}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 uppercase">Delete</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% else %}
+		<p>La catégorie n'a pas encore de modules</p>
+	{% endif %}
+{% endblock %}

@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
-{% block title %}Ajouter un programme
+{% block title %}Ajouter une catégorie
 {% endblock %}
 {% block body %}
 	{% if edit %}
-		<h1 class="text-2xl font-bold uppercase text-center">Editer un programme</h1>
+		<h1 class="text-2xl font-bold uppercase text-center">Editer une catégorie</h1>
 	{% else %}
-		<h1 class="text-2xl font-bold uppercase text-center">Ajouter un programme</h1>
+		<h1 class="text-2xl font-bold uppercase text-center">Ajouter une catégorie</h1>
 	{% endif %}
 
 	{# form_start permet de gérer manuellement la disposition du formulaire #}
-	{{ form_start(formAddCategory, {'attr': {'class': 'w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
-	{{ form_row(formAddCategory.label, {'label': 'Nom de categorie : '}) }}
-	{{ form_row(formAddCategory.submit, {'label': 'Ajouter'}) }}
-	{{ form_end(formAddCategory) }}
+	{{ form_start(formAddCategorie, {'attr': {'class': 'w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
+	{{ form_row(formAddCategorie.label, {'label': 'Nom de categorie : '}) }}
+	{{ form_row(formAddCategorie.submit, {'label': 'Ajouter'}) }}
+	{{ form_end(formAddCategorie) }}
 {% endblock %}

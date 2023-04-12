@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Session;
+use App\Entity\Programme;
+use App\Entity\Stagiaire;
 use App\Form\SessionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,11 +57,14 @@ class SessionController extends AbstractController
     }
 
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session): Response
+    public function show(EntityManagerInterface $entityManager, Session $session): Response
     {
+        $stagiaireNotIn = $entityManager->getRepository(Stagiaire::class)->findByStagiairesNotInSession($session->getId());
         return $this->render('session/show.html.twig', [
             'session' => $session,
             'stagiaires' => $session->getStagiaires(),
+            'programmes' => $session->getProgrammes(),
+            'stagiairesNotIn' => $stagiaireNotIn
         ]);
     }
 }

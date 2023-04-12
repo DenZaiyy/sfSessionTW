@@ -20,8 +20,12 @@ class ProgrammeController extends AbstractController
     public function index(EntityManagerInterface $entityManager): Response
     {
         $programmes = $entityManager->getRepository(Programme::class)->findAll();
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        $modules = $entityManager->getRepository(Module::class)->findAll();
         return $this->render('programme/index.html.twig', [
             'programmes' => $programmes,
+            'categories' => $categories,
+            'modules' => $modules,
         ]);
     }
 
@@ -37,10 +41,10 @@ class ProgrammeController extends AbstractController
         $form->handleRequest($request); // Récupère les données du formulaire
 
         if ($form->isSubmitted() && $form->isValid()) { // Vérifie que le formulaire a été soumis et qu'il est valide
-            $programme = $form->getData(); //Hydrate l'objet $entreprise avec les données du formulaire
+            $programme = $form->getData(); //Hydrate l'objet $programme avec les données du formulaire
             $entityManager->persist($programme); // Prépare l'insertion en base de données
             $entityManager->flush(); // Exécute l'insertion en base de données
-            return $this->redirectToRoute('app_programme'); // Redirige vers la liste des entreprises
+            return $this->redirectToRoute('app_programme'); // Redirige vers la liste des programmes
         }
 
         // vue pour afficher le formulaire d'ajout
@@ -65,7 +69,7 @@ class ProgrammeController extends AbstractController
             $categorie = $form->getData(); //Hydrate l'objet $entreprise avec les données du formulaire
             $entityManager->persist($categorie); // Prépare l'insertion en base de données
             $entityManager->flush(); // Exécute l'insertion en base de données
-            return $this->redirectToRoute('app_categorie'); // Redirige vers la liste des entreprises
+            return $this->redirectToRoute('app_programme'); // Redirige vers la liste des entreprises
         }
 
         // vue pour afficher le formulaire d'ajout
@@ -90,7 +94,7 @@ class ProgrammeController extends AbstractController
             $module = $form->getData(); //Hydrate l'objet $entreprise avec les données du formulaire
             $entityManager->persist($module); // Prépare l'insertion en base de données
             $entityManager->flush(); // Exécute l'insertion en base de données
-            return $this->redirectToRoute('app_module'); // Redirige vers la liste des entreprises
+            return $this->redirectToRoute('app_programme'); // Redirige vers la liste des entreprises
         }
 
         // vue pour afficher le formulaire d'ajout
@@ -108,11 +112,37 @@ class ProgrammeController extends AbstractController
         return $this->redirectToRoute('app_programme'); // Redirige vers la liste des programmes
     }
 
+    #[Route('/categorie/{id}/delete', name: 'delete_categorie')]
+    public function deleteCategory(EntityManagerInterface $entityManager, Categorie $categorie): Response
+    {
+        $entityManager->remove($categorie); // Prépare la suppression en base de données
+        $entityManager->flush(); // Exécute la suppression en base de données
+        return $this->redirectToRoute('app_programme'); // Redirige vers la liste des programmes
+    }
+
+    #[Route('/module/{id}/delete', name: 'delete_module')]
+    public function deleteModule(EntityManagerInterface $entityManager, Module $module): Response
+    {
+        $entityManager->remove($module); // Prépare la suppression en base de données
+        $entityManager->flush(); // Exécute la suppression en base de données
+        return $this->redirectToRoute('app_programme'); // Redirige vers la liste des programmes
+    }
+
     #[Route('/programme/{id}', name: 'show_programme')]
     public function show(Programme $programme): Response
     {
         return $this->render('programme/show.html.twig', [
             'programme' => $programme
+        ]);
+    }
+
+    #[Route('/categorie/{id}', name: 'show_categorie')]
+    public function showCategory(Categorie $categorie): Response
+    {
+        $modules = $categorie->getModules();
+        return $this->render('programme/showCategorie.html.twig', [
+            'categorie' => $categorie,
+            'modules' => $modules
         ]);
     }
 }

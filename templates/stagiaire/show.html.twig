@@ -36,5 +36,21 @@
 		</tbody>
 	</table>
 
-	<hr>
+	<hr class="mt-5">
+
+	{% if sessions|length != 0 %}
+		<h2 class="font-bold uppercase text-xl mt-5">Liste des sessions dans laquelle le stagiaire participe :</h2>
+		{% for session in sessions %}
+			<div class="mt-5">
+				<a href="{{ path('show_session', {'id': session.id}) }}" class="text-blue-500 hover:text-blue-700">
+					{{ session.label }}
+				</a>
+			</div>
+		{% endfor %}
+	{% else %}
+		<div class="mt-5 text-xl font-bold">
+			Le stagiaire n'est inscrit à aucune session
+		</div>
+	{% endif %}
+
 {% endblock %}

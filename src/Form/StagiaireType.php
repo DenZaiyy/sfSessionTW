@@ -27,7 +27,7 @@ class StagiaireType extends AbstractType
             ])
             ->add('dateNaissance', DateType::class, [
                 'widget' => 'single_text',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'w-full p-2.5 rounded-lg']
             ])
             ->add('mail', EmailType::class, [
                 'attr' => ['class' => 'form-control']
@@ -48,7 +48,7 @@ class StagiaireType extends AbstractType
                 'required' => false, // rendre le champ non obligatoire
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary mt-3'],
+                'attr' => ['class' => 'bg-slate-900 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300 w-full mt-5'],
             ]);
     }
 

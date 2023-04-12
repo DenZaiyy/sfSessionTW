@@ -39,28 +39,49 @@ class StagiaireRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Stagiaire[] Returns an array of Stagiaire objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByStagiairesNotInSession(int $id)
+    {
+        $em = $this->getEntityManager();
 
-//    public function findOneBySomeField($value): ?Stagiaire
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb = $em->createQueryBuilder();
+
+        $notIn = $qb->select('sst')
+            ->from('App\Entity\Stagiaire', 'sst')
+            ->where($qb->expr()->eq('sst.session_id', ':id'))
+            ->setParameter('id', $id);
+
+        dump($notIn->getDQL());
+
+        $likes = $qb->select('st')
+            ->from('App\Entity\Stagiaire', 'st')
+            ->where($qb->expr()->notIn('st.id', $notIn->getDQL()));
+
+        dd($likes->getQuery()->getResult());
+        return $likes->getQuery()->getResult();
+    }
+
+    //    /**
+    //     * @return Stagiaire[] Returns an array of Stagiaire objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('s.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Stagiaire
+    //    {
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

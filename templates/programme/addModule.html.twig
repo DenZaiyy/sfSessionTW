@@ -10,12 +10,9 @@
 
 	{# form_start permet de gérer manuellement la disposition du formulaire #}
 	{{ form_start(formAddModule, {'attr': {'class': 'w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
-	{{ form_row(formAddModule.session, {'label': 'Nom de session : '}) }}
+	{{ form_row(formAddModule.label, {'label': 'Nom du module : '}) }}
 	<div class="mt-5">
-		{{ form_row(formAddModule.module, {'label': 'Module : '}) }}
-	</div>
-	<div class="mt-5">
-		{{ form_row(formAddModule.duree, {'label': 'Duree (min) : '}) }}
+		{{ form_row(formAddModule.categorie, {'label': 'Catégorie : '}) }}
 	</div>
 	{{ form_row(formAddModule.submit, {'label': 'Ajouter'}) }}
 	{{ form_end(formAddModule) }}
