@@ -57,7 +57,7 @@ class SessionController extends AbstractController
         if ($session->getStagiaires()->contains($stagiaire)) { // Vérifie si le stagiaire est déjà dans la session
             $session->removeStagiaire($stagiaire); // Retire le stagiaire de la session
         } else {
-            if ($session->getNbPlace() <= $session->getStagiaires()->count()) {
+            if ($session->getNbPlace() == $session->getStagiaires()->count()) {
                 $this->addFlash('danger', 'La session est déjà complète');
                 return $this->redirectToRoute('show_session', ['id' => $id]);
             } else {
