@@ -35,10 +35,10 @@ class SessionController extends AbstractController
         $form->handleRequest($request); // Récupère les données du formulaire
 
         if ($form->isSubmitted() && $form->isValid()) { // Vérifie que le formulaire a été soumis et qu'il est valide
-            $session = $form->getData(); //Hydrate l'objet $entreprise avec les données du formulaire
+            $session = $form->getData(); //Hydrate l'objet $session avec les données du formulaire
             $entityManager->persist($session); // Prépare l'insertion en base de données
             $entityManager->flush(); // Exécute l'insertion en base de données
-            return $this->redirectToRoute('app_session'); // Redirige vers la liste des entreprises
+            return $this->redirectToRoute('app_session'); // Redirige vers la liste des sessions
         }
 
         // vue pour afficher le formulaire d'ajout
@@ -46,6 +46,28 @@ class SessionController extends AbstractController
             'formAddSession' => $form->createView(), // Envoie le formulaire à la vue
             'edit' => $session->getId()
         ]);
+    }
+
+    #[Route('/session/{id}/addStagiaire/{stagiaire_id}', name: 'add_stagiaire_to_session')]
+    #[Route('/session/{id}/removeStagiaire/{stagiaire_id}', name: 'remove_stagiaire_to_session')]
+    public function stagiaireToSession(EntityManagerInterface $entityManager, Session $session, int $id, int $stagiaire_id): Response
+    {
+        $stagiaire = $entityManager->getRepository(Stagiaire::class)->find($stagiaire_id); // Récupère le stagiaire à ajouter
+
+        if ($session->getStagiaires()->contains($stagiaire)) { // Vérifie si le stagiaire est déjà dans la session
+            $session->removeStagiaire($stagiaire); // Retire le stagiaire de la session
+        } else {
+            if ($session->getNbPlace() <= $session->getStagiaires()->count()) {
+                $this->addFlash('danger', 'La session est déjà complète');
+                return $this->redirectToRoute('show_session', ['id' => $id]);
+            } else {
+                $session->addStagiaire($stagiaire); // Ajoute le stagiaire à la session
+            }
+        }
+
+        $entityManager->flush(); // Exécute l'insertion en base de données
+
+        return $this->redirectToRoute('show_session', ['id' => $id]); // Redirige vers le détail de la session
     }
 
     #[Route('/session/{id}/delete', name: 'delete_session')]
