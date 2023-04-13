@@ -20,6 +20,10 @@
 	<div class="mt-5">
 		{{ form_row(formAddSession.date_fin, {'label': 'Date de fin : '}) }}
 	</div>
-	{{ form_row(formAddSession.submit, {'label': 'Ajouter'}) }}
+	{% if edit %}
+		{{ form_row(formAddSession.submit, {'label': 'Modifier'}) }}
+	{% else %}
+		{{ form_row(formAddSession.submit, {'label': 'Ajouter'}) }}
+	{% endif %}
 	{{ form_end(formAddSession) }}
 {% endblock %}
