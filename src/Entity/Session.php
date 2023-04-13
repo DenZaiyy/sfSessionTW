@@ -28,7 +28,7 @@ class Session
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_fin = null;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class, orphanRemoval: true)]
     private Collection $programmes;
 
     #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'session_stagiaire')]
