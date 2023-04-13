@@ -9,33 +9,21 @@
 	{% endif %}
 
 	{# form_start permet de gérer manuellement la disposition du formulaire #}
-	{{ form_start(formAddStagiaire, {'attr': {'class': 'mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
-	<div class="flex gap-4">
-		<div class="left">
-			{{ form_row(formAddStagiaire.nom) }}
-			<div class="mt-5">
-				{{ form_row(formAddStagiaire.prenom) }}
-			</div>
-			<div class="mt-5">
-				{{ form_row(formAddStagiaire.dateNaissance) }}
-			</div>
-			<div class="mt-5">
-				{{ form_row(formAddStagiaire.mail) }}
-			</div>
-		</div>
-		<div class="right">
-			{{ form_row(formAddStagiaire.sexe) }}
-			<div class="mt-5">
-				{{ form_row(formAddStagiaire.ville) }}
-			</div>
-			<div class="mt-5">
-				{{ form_row(formAddStagiaire.tel) }}
-			</div>
-			<div class="mt-5">
-				{{ form_row(formAddStagiaire.session_stagiaire) }}
-			</div>
-		</div>
+	{{ form_start(formAddStagiaire, {'attr': {'class': 'w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5'}}) }}
+	<div class="grid grid-cols-2 gap-2">
+		{{ form_row(formAddStagiaire.nom) }}
+		{{ form_row(formAddStagiaire.prenom) }}
+		{{ form_row(formAddStagiaire.dateNaissance) }}
+		{{ form_row(formAddStagiaire.sexe) }}
+		{{ form_row(formAddStagiaire.ville) }}
+		{{ form_row(formAddStagiaire.tel) }}
 	</div>
-	{{ form_row(formAddStagiaire.submit, {'label': 'Ajouter'}) }}
+	{{ form_row(formAddStagiaire.mail) }}
+	{% if edit %}
+		{{ form_row(formAddStagiaire.submit, {'label': 'Modifier'}) }}
+	{% else %}
+		{{ form_row(formAddStagiaire.submit, {'label': 'Ajouter'}) }}
+	{% endif %}
+
 	{{ form_end(formAddStagiaire) }}
 {% endblock %}

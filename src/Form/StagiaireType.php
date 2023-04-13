@@ -41,12 +41,6 @@ class StagiaireType extends AbstractType
             ->add('tel', TelType::class, [
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5']
             ])
-            ->add('session_stagiaire', EntityType::class, [
-                'class' => Session::class,
-                'multiple' => true,
-                'required' => false,
-                'attr' => ['class' => 'w-full p-2.5 rounded-lg overflow-hidden']
-            ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'bg-slate-900 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300 w-full mt-5'],
             ]);
