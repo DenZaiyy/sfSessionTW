@@ -31,13 +31,6 @@ class SessionType extends AbstractType
                 'widget' => 'single_text',
                 'attr' => ['class' => 'w-full p-2.5 rounded-lg']
             ])
-            ->add('stagiaires', EntityType::class, [
-                'class' => Stagiaire::class,
-                'multiple' => true,
-                'required' => false, // rendre le champ non obligatoire
-                'choice_label' => 'fullName',
-                'attr' => ['class' => 'mt-5 w-full p-2.5 rounded-lg overflow-hidden']
-            ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'bg-slate-900 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300 w-full mt-5'],
             ]);
