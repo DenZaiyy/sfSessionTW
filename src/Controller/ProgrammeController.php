@@ -3,22 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Module;
+use App\Form\ModuleType;
 use App\Entity\Categorie;
 use App\Entity\Programme;
-use App\Form\ProgrammeType;
-use App\Form\ModuleType;
 use App\Form\CategorieType;
+use App\Form\ProgrammeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class ProgrammeController extends AbstractController
 {
     #[Route('/programme', name: 'app_programme')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+//        $this->denyAccessUnlessGranted('ROLE_ADMIN'); // une des façons de restreindre le contenu de la route aux admins
         $programmes = $entityManager->getRepository(Programme::class)->findAll();
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         $modules = $entityManager->getRepository(Module::class)->findAll();

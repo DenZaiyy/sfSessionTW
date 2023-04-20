@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Session;
-use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\SessionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SessionController extends AbstractController
@@ -22,7 +22,6 @@ class SessionController extends AbstractController
             'sessions' => $sessions,
         ]);
     }
-
     #[Route('/session/add', name: 'add_session')]
     #[Route('/session/{id}/edit', name: 'edit_session')]
     public function add(EntityManagerInterface $entityManager, Session $session = null, Request $request): Response
@@ -43,11 +42,15 @@ class SessionController extends AbstractController
 
         // vue pour afficher le formulaire d'ajout
         return $this->render('session/add.html.twig', [
-            'formAddSession' => $form->createView(), // Envoie le formulaire à la vue
-            'edit' => $session->getId()
+            'form' => $form->createView(), // Envoie le formulaire à la vue
+            'edit' => $session->getId(),
+			'sessionId' => $session->getId()
         ]);
     }
 
+	/**
+	 * @IsGranted("ROLE_ADMIN")
+	 */
     #[Route('/session/{id}/addStagiaire/{stagiaire_id}', name: 'add_stagiaire_to_session')]
     #[Route('/session/{id}/removeStagiaire/{stagiaire_id}', name: 'remove_stagiaire_to_session')]
     public function stagiaireToSession(EntityManagerInterface $entityManager, Session $session, int $id, int $stagiaire_id): Response
@@ -70,6 +73,9 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_session', ['id' => $id]); // Redirige vers le détail de la session
     }
 
+	/**
+	 * @IsGranted("ROLE_ADMIN")
+	 */
     #[Route('/session/{id}/delete', name: 'delete_session')]
     public function delete(EntityManagerInterface $entityManager, Session $session): Response
     {
