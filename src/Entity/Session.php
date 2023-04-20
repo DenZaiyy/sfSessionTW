@@ -28,7 +28,8 @@ class Session
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_fin = null;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class, cascade: ["persist"], orphanRemoval: true)]
+    #[ORM\OrderBy(["module" => "ASC"])]
     private Collection $programmes;
 
     #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'session_stagiaire')]
@@ -138,11 +139,6 @@ class Session
         return $this;
     }
 
-    public function __toString()
-    {
-        return "Session n°" . $this->id;
-    }
-
     public function getLabel(): ?string
     {
         return $this->label;
@@ -153,5 +149,10 @@ class Session
         $this->label = $label;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return "Session n°" . $this->id;
     }
 }

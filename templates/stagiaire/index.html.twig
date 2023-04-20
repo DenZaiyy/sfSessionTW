@@ -4,42 +4,58 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="font-bold uppercase text-2xl text-center">Liste des stagiaires</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <h1 class="font-bold uppercase text-2xl text-center">Liste des stagiaires</h1>
 
-	<div class="btns flex justify-center mt-5">
-		<a href="{{ path('add_stagiaire') }}" class="bg-blue-500 hover:bg-blue-700 hover:scale-110 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add stagiaire</a>
-	</div>
+        <div class="btns flex justify-center mt-5">
+            <a href="{{ path('add_stagiaire') }}"
+               class="bg-blue-500 hover:bg-blue-700 hover:scale-110 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add
+                stagiaire</a>
+        </div>
 
-	<table class="w-full border-collapse bg-white text-left text-sm text-gray-500 dark:text-white mt-5 table-auto">
-		<thead class="bg-gray-50 dark:bg-slate-800">
-			<tr class="divide-x">
-				<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-auto">#</th>
-				<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-1/2">Nom</th>
-				<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-1/2">Prenom</th>
-				<th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-auto">Actions</th>
-			</tr>
-		</thead>
-		<tbody class="divide-y divide-gray-100 border-t border-gray-100 dark:bg-slate-400">
-			{% for stagiaire in stagiaires %}
-				<tr class="hover:bg-gray-50 hover:dark:bg-slate-800 divide-x">
-					<td class="px-6 py-4">{{ stagiaire.id }}</td>
-					<td class="px-6 py-4">{{ stagiaire.nom }}</td>
-					<td class="px-6 py-4">{{ stagiaire.prenom }}</td>
-					<td class="">
-						<div class="flex gap-4 px-[10px]">
-							<a class="transition-all hover:text-blue-600" href="{{ path('show_stagiaire', {'id': stagiaire.id}) }}">
-								<i class="fa-solid fa-eye fa-2xl"></i>
-							</a>
-							<a class="transition-all hover:text-blue-600" href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">
-								<i class="fa-solid fa-pen-to-square fa-2xl"></i>
-							</a>
-							<a class="transition-all hover:text-red-600" href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}">
-								<i class="fa-solid fa-trash-can fa-2xl"></i>
-							</a>
-						</div>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500 dark:text-white mt-5 table-auto">
+
+            <thead class="bg-gray-50 dark:bg-slate-800">
+            <tr class="divide-x">
+                <th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-auto">#</th>
+                <th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-1/2">Nom</th>
+                <th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-1/2">Prenom</th>
+                <th scope="col" class="px-6 py-4 font-bold uppercase text-gray-900 dark:text-white w-auto">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100 border-t border-gray-100 dark:bg-slate-400">
+            {% for stagiaire in stagiaires %}
+                <tr class="hover:bg-gray-50 hover:dark:bg-slate-800 divide-x">
+                    <td class="px-6 py-4">{{ stagiaire.id }}</td>
+                    <td class="px-6 py-4">{{ stagiaire.nom }}</td>
+                    <td class="px-6 py-4">{{ stagiaire.prenom }}</td>
+                    <td class="">
+                        <div class="flex gap-4 px-[10px]">
+                            <a class="transition-all hover:text-blue-600"
+                               href="{{ path('show_stagiaire', {'id': stagiaire.id}) }}">
+                                <i class="fa-solid fa-eye fa-2xl"></i>
+                            </a>
+                            <a class="transition-all hover:text-blue-600"
+                               href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">
+                                <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+                            </a>
+                            <a class="transition-all hover:text-red-600"
+                               href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}"
+                               onclick="return confirm('Êtes-vous sure?')">
+                                <i class="fa-solid fa-trash-can fa-2xl"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+    {% else %}
+        <div class="text-center">
+            <h1 class="text-2xl font-bold uppercase">Vous n'avez pas accès a la page.</h1>
+            <a href="{{ path('app_home') }}" class="underline mt-2">retourner à la page d'accueil</a>
+        </div>
+    {% endif %}
 {% endblock %}

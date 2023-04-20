@@ -4,32 +4,33 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-2xl font-bold uppercase text-center">Détail session ({{ session.label }})</h1>
+<h1 class="text-2xl font-bold uppercase text-center">Détail session ({{ session.label }})</h1>
 
-	{# <a href="{{path('add_programme', {'id': session.id})}}">add program</a> #}
+{# <a href="{{path('add_programme', {'id': session.id})}}">add program</a> #}
 
-	<h2 class="text-2xl font-bold uppercase mt-5">Programmes :</h2>
-	{% if programmes %}
-		<div class="container flex gap-4 mt-5">
-			{% for programme in session.programmes %}
-				<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-					<p class="text-slate-900 dark:text-white text-base tracking-tight">
-						<strong>Catégorie :</strong>
-						{{ programme.module.categorie.label }}</p>
-					<p class="text-slate-900 dark:text-white text-base tracking-tight">
-						<strong>Module :</strong>
-						{{ programme.module.label }}</p>
-					<p class="text-slate-900 dark:text-white text-base tracking-tight">
-						<strong>Durée :</strong>
-						{{ programme.duree }}
-						heures</p>
-				</div>
-			{% endfor %}
-		</div>
-	{% else %}
-		<p>La session n'a pas encore de programme</p>
-	{% endif %}
+<h2 class="text-2xl font-bold uppercase mt-5">Programmes :</h2>
+{% if programmes %}
+	<div class="container flex gap-4 mt-5">
+		{% for programme in session.programmes %}
+			<div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+				<p class="text-slate-900 dark:text-white text-base tracking-tight">
+					<strong>Catégorie :</strong>
+					{{ programme.module.categorie.label }}</p>
+				<p class="text-slate-900 dark:text-white text-base tracking-tight">
+					<strong>Module :</strong>
+					{{ programme.module.label }}</p>
+				<p class="text-slate-900 dark:text-white text-base tracking-tight">
+					<strong>Durée :</strong>
+					{{ programme.duree }}
+					heures</p>
+			</div>
+		{% endfor %}
+	</div>
+{% else %}
+	<p>La session n'a pas encore de programme</p>
+{% endif %}
 
+{% if is_granted('ROLE_ADMIN') %}
 	<h2 class="text-2xl font-bold uppercase mt-5">La liste des participants</h2>
 	{% if session.stagiaires|length != 0 %}
 		<table class="w-full border-collapse bg-white text-left text-sm text-gray-500 dark:text-white mt-5 table-auto">
@@ -60,7 +61,7 @@
 						<td class="px-6 py-4">{{ stagiaire.mail }}</td>
 						<td class="px-6 py-4">{{ stagiaire.tel }}</td>
 						<td class="px-6 py-4">
-							<a href="{{ path('remove_stagiaire_to_session', {'id': session.id, 'stagiaire_id': stagiaire.id }) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Retirer</a>
+							<a href="{{ path('remove_stagiaire_to_session', {'id': session.id, 'stagiaire_id': stagiaire.id }) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="return confirm('Êtes-vous sure?')">Retirer</a>
 						</td>
 					</tr>
 				</tr>
@@ -100,4 +101,4 @@
 			{% endfor %}
 		</tbody>
 	</table>
-{% endif %}{% endblock %}
+{% endif %}{% endif %}{% endblock %}

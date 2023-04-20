@@ -5,9 +5,12 @@
 
 {% block body %}
 	<h1 class="text-2xl font-bold uppercase text-center">Liste des sessions</h1>
-	<div class="btns flex justify-center mt-5">
-		<a href="{{ path('add_session') }}" class="bg-blue-500 hover:bg-blue-700 hover:scale-110 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add session</a>
-	</div>
+	{% if is_granted('ROLE_ADMIN') %}
+		<div class="btns flex justify-center mt-5">
+			<a href="{{ path('add_session') }}" class="bg-blue-500 hover:bg-blue-700 hover:scale-110 text-white font-bold py-2 px-4 rounded-full ease-in-out duration-500 uppercase">add session</a>
+		</div>
+	{% endif %}
+
 	{% if sessions %}
 		<div class="container flex gap-4 justify-center mt-5">
 			{% for session in sessions %}
@@ -20,6 +23,9 @@
 						<strong>Nombre de places :</strong>
 						{{ session.getNbPlace }}</p>
 					<p class="text-slate-900 dark:text-white text-base tracking-tight">
+						<strong>Places disponible :</strong>
+						{{ session.getNbPlace - session.getStagiaires.count }}</p>
+					<p class="text-slate-900 dark:text-white text-base tracking-tight">
 						<strong>Date de début :</strong>
 						{{ session.getDateDebut|date("d/m/Y")  }}</p>
 
@@ -30,12 +36,14 @@
 						<a class="transition-all hover:text-blue-600 text-white" href="{{ path('show_session', {'id': session.id}) }}">
 							<i class="fa-solid fa-eye fa-2xl"></i>
 						</a>
-						<a href="{{ path('edit_session', {'id': session.id })}}" class="transition-all hover:text-blue-600 text-white">
-							<i class="fa-solid fa-pen-to-square fa-2xl"></i>
-						</a>
-						<a href="{{ path('delete_session', {'id': session.id })}}" class="transition-all hover:text-red-600 text-red-950">
-							<i class="fa-solid fa-trash-can fa-2xl"></i>
-						</a>
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="{{ path('edit_session', {'id': session.id })}}" class="transition-all hover:text-blue-600 text-white">
+								<i class="fa-solid fa-pen-to-square fa-2xl"></i>
+							</a>
+							<a href="{{ path('delete_session', {'id': session.id })}}" class="transition-all hover:text-red-600 text-red-950" onclick="return confirm('Êtes-vous sure?')">
+								<i class="fa-solid fa-trash-can fa-2xl"></i>
+							</a>
+						{% endif %}
 					</div>
 				</div>
 			{% endfor %}
