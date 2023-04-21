@@ -74,8 +74,8 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
     })
     // Fonction permettant l'affichage de la fenêtre modale de confirmation pour chaque situation
     function showModalConfirm($id, $href, $title) {
-        console.log("id   = "+$id)
-        console.log("href = "+$href)
+        // console.log("id   = "+$id)
+        // console.log("href = "+$href)
         $('#modalPopup .modal-title').html($title)
         $('#modalPopup .modal-body').html("<span class='center'><i class='fas fa-spinner fa-spin fa-4x'></i></span>")
         $.get(
