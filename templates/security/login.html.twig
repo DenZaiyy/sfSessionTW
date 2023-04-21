@@ -3,7 +3,7 @@
 {% block title %}Se connecter!{% endblock %}
 
 {% block body %}
-<form method="post">
+<form method="post" class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md mt-5">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -14,29 +14,33 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <h1 class="text-2xl font-bold uppercase text-center">Login</h1>
     <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" autocomplete="username" required autofocus>
+    <div class="mt-5">
+        <label for="inputPassword">Password</label>
+        <input type="password" name="password" id="inputPassword" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" autocomplete="current-password" required>
+    </div>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+        {#Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html#}
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
+    <div class="checkbox mt-2">
+        <label>
+            <input type="checkbox" name="_remember_me"> Remember me
+        </label>
+    </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+    <div class="links flex flex-col mt-5 gap-4">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md ease-in-out duration-500 uppercase text-center" type="submit">
+            Login
+        </button>
+        <a href="{{ path('app_register') }}" class="bg-gray-800 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md ease-in-out duration-500 uppercase text-center">Register</a>
+        <a href="{{ path('app_forgot_password_request') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-md ease-in-out duration-500 uppercase text-center">Reset password</a>
+    </div>
 </form>
 {% endblock %}

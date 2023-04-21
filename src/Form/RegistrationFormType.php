@@ -6,9 +6,11 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -19,16 +21,25 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('username', null, [
-                'attr' => ['autocomplete' => 'username'],
+                'attr' => [
+					'autocomplete' => 'username',
+					'class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+					],
             ])
             ->add('email', EmailType::class, [
-                'attr' => ['autocomplete' => 'email'],
+                'attr' => [
+					'autocomplete' => 'email',
+					'class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+				],
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+					'autocomplete' => 'new-password',
+					'class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+				],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -48,7 +59,25 @@ class RegistrationFormType extends AbstractType
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
-            ]);
+            ])
+			->add('image', FileType::class, [
+				'label' => 'Avatar',
+				'mapped' => false,
+				'required' => false,
+				'constraints' => [
+					new File([
+						'maxSize' => "1024k",
+						'mimeTypes' => [
+							'image/jpg',
+							'image/jpeg',
+							'image/png',
+						],
+						'mimeTypesMessage' => 'Please upload a valid image'
+					])
+				],
+				'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5']
+			])
+		;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
