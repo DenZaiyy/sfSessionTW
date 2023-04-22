@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -60,7 +61,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-			->add('image', FileType::class, [
+			->add('image', DropzoneType::class, [
 				'label' => 'Avatar',
 				'mapped' => false,
 				'required' => false,
@@ -75,7 +76,7 @@ class RegistrationFormType extends AbstractType
 						'mimeTypesMessage' => 'Please upload a valid image file'
 					])
 				],
-				'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5']
+//				'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5']
 			])
 		;
     }
