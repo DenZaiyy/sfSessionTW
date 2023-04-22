@@ -72,7 +72,7 @@ class RegistrationFormType extends AbstractType
 							'image/jpeg',
 							'image/png',
 						],
-						'mimeTypesMessage' => 'Please upload a valid image'
+						'mimeTypesMessage' => 'Please upload a valid image file'
 					])
 				],
 				'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5']

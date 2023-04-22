@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\FileUploader;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,7 +21,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -36,27 +36,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
-			$avatar = $form->get('image')->getData();
+			/** @var UploadedFile $avatarFile */
+			$avatarFile = $form->get('image')->getData();
 
-			if ($avatar) {
-				$originalFilename = pathinfo($avatar->getClientOriginalName(), PATHINFO_FILENAME);
-				// this is needed to safely include the file name as part of the URL
-				// $safeFilename = $slugger->slug($originalFilename);
-				$newFilename = uniqid() . '.' . $avatar->guessExtension();
+			if ($avatarFile) {
+				$avatarFileName = $fileUploader->upload($avatarFile);
 
-				// Move the file to the directory where brochures are stored
-				try {
-					$avatar->move(
-						$this->getParameter('avatar_directory'),
-						$newFilename
-					);
-				} catch (FileException $e) {
-					// ... handle exception if something happens during file upload
-				}
-
-				// updates the 'brochureFilename' property to store the PDF file name
-				// instead of its contents
-				$user->setAvatar($newFilename);
+				$user->setAvatar($avatarFileName);
 
 				$entityManager->persist($user); // Prépare l'insertion en base de données
 				$entityManager->flush();
