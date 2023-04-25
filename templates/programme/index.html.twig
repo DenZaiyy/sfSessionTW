@@ -53,6 +53,7 @@
 
                             {{ categorie.label }}
                         </p>
+                        <img src="{{ categorie.image }}" alt="image pour la catégorie : {{ categorie.label }}" width="150px">
                         <div class="flex justify-center mt-5 gap-4">
                             <a href="{{ path('show_categorie', {'id': categorie.id }) }}"
                                class="transition-all hover:text-blue-600 text-white">
