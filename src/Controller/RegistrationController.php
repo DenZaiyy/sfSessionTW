@@ -43,9 +43,6 @@ class RegistrationController extends AbstractController
 				$avatarFileName = $fileUploader->upload($avatarFile);
 
 				$user->setAvatar($avatarFileName);
-
-				$entityManager->persist($user); // Prépare l'insertion en base de données
-				$entityManager->flush();
 			}
 
             $entityManager->persist($user);
