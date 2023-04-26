@@ -51,7 +51,7 @@ symfony server:start
 2. Build project
 
 ```bash
-yarn watch
+npm run build
 ```
 
 # Badges
